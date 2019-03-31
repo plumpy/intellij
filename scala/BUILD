@@ -2,15 +2,14 @@ licenses(["notice"])  # Apache 2.0
 
 load(
     "//build_defs:build_defs.bzl",
-    "merged_plugin_xml",
-    "stamped_plugin_xml",
     "intellij_plugin",
     "optional_plugin_xml",
+    "stamped_plugin_xml",
 )
 load(
     "//testing:test_defs.bzl",
-    "intellij_unit_test_suite",
     "intellij_integration_test_suite",
+    "intellij_unit_test_suite",
 )
 
 filegroup(
@@ -26,25 +25,11 @@ optional_plugin_xml(
     visibility = ["//visibility:public"],
 )
 
-OPTIONAL_PLUGIN_XMLS = [
-    ":optional_xml",
-    "//java:optional_java",
-]
-
-merged_plugin_xml(
-    name = "merged_plugin_xml",
-    srcs = [
-        ":plugin_xml",
-        "//base:plugin_xml",
-        "//java:plugin_xml",
-    ],
-)
-
 stamped_plugin_xml(
     name = "scala_plugin_xml",
     plugin_id = "com.google.idea.blaze.scala",
     plugin_name = "com.google.idea.blaze.scala",
-    plugin_xml = "merged_plugin_xml",
+    plugin_xml = ":plugin_xml",
 )
 
 java_library(
@@ -65,9 +50,13 @@ java_library(
 intellij_plugin(
     name = "scala_integration_test_plugin",
     testonly = 1,
-    optional_plugin_xmls = OPTIONAL_PLUGIN_XMLS,
+    optional_plugin_xmls = [":optional_xml"],
     plugin_xml = ":scala_plugin_xml",
-    deps = [":scala"],
+    deps = [
+        ":scala",
+        "//base:plugin_library",
+        "//java:plugin_library",
+    ],
 )
 
 intellij_unit_test_suite(

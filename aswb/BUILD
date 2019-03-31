@@ -29,12 +29,8 @@ merged_plugin_xml(
     name = "merged_plugin_xml_common",
     srcs = [
         "src/META-INF/aswb.xml",
-        "//base:plugin_xml",
-        "//dart:plugin_xml",
-        "//java:plugin_xml",
         "//kotlin:plugin_xml",
         "//python:plugin_xml",
-        "//skylark:plugin_xml",
     ],
 )
 
@@ -53,8 +49,6 @@ optional_plugin_xml(
 OPTIONAL_PLUGIN_XMLS = [
     ":optional_cpp_xml",
     ":optional_ndk_xml",
-    "//java:optional_java",
-    "//java:optional_coverage",
     "//kotlin:optional_xml",
     "//python:optional_xml",
 ]
@@ -115,10 +109,8 @@ java_library(
     }),
     resources = glob(["resources/**/*"]),
     runtime_deps = [
-        "//dart",
         "//kotlin",
         "//python",
-        "//skylark",
     ],
     deps = [
         "//base",
@@ -230,6 +222,10 @@ intellij_plugin(
     plugin_xml = ":stamped_plugin_xml",
     deps = [
         ":aswb_lib",
+        "//base:plugin_library",
+        "//dart:plugin_library",
+        "//java:plugin_library",
+        "//skylark:plugin_library",
     ],
 )
 

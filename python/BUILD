@@ -45,7 +45,6 @@ optional_plugin_xml(
 merged_plugin_xml(
     name = "merged_plugin_xml",
     srcs = [
-        "//base:plugin_xml",
         "//python:plugin_xml",
     ],
 )
@@ -63,6 +62,7 @@ intellij_plugin(
     optional_plugin_xmls = [":optional_xml"],
     plugin_xml = ":python_plugin_xml",
     deps = [
+        "//base:plugin_library",
         "//python",
     ],
 )

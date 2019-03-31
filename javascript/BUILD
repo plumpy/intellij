@@ -3,7 +3,6 @@ licenses(["notice"])  # Apache 2.0
 load(
     "//build_defs:build_defs.bzl",
     "intellij_plugin",
-    "merged_plugin_xml",
     "optional_plugin_xml",
     "stamped_plugin_xml",
 )
@@ -51,32 +50,23 @@ optional_plugin_xml(
     visibility = ["//visibility:public"],
 )
 
-merged_plugin_xml(
-    name = "merged_plugin_xml",
-    srcs = [
-        "//base:plugin_xml",
-        "//java:plugin_xml",
-    ] + [
-        ":plugin_xml",
-    ],
-)
-
 stamped_plugin_xml(
     name = "javascript_plugin_xml",
     plugin_id = "com.google.idea.blaze.javascript",
     plugin_name = "com.google.idea.blaze.javascript",
-    plugin_xml = ":merged_plugin_xml",
+    plugin_xml = ":plugin_xml",
 )
 
 intellij_plugin(
     name = "javascript_integration_test_plugin",
     testonly = 1,
-    optional_plugin_xmls = [
-        ":optional_xml",
-        "//java:optional_java",  # needed for default workspace
-    ],
+    optional_plugin_xmls = [":optional_xml"],
     plugin_xml = ":javascript_plugin_xml",
-    deps = [":javascript"],
+    deps = [
+        ":javascript",
+        "//base:plugin_library",
+        "//java:plugin_library",
+    ],
 )
 
 intellij_unit_test_suite(

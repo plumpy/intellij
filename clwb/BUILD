@@ -26,12 +26,9 @@ merged_plugin_xml(
     name = "merged_plugin_xml_common",
     srcs = [
         "src/META-INF/clwb.xml",
-        "//base:plugin_xml",
         "//cpp:plugin_xml",
-        "//dart:plugin_xml",
         "//javascript:plugin_xml",
         "//python:plugin_xml",
-        "//skylark:plugin_xml",
     ],
 )
 
@@ -58,10 +55,8 @@ java_library(
     name = "clwb_lib",
     srcs = glob(["src/**/*.java"]),
     runtime_deps = [
-        "//dart",
         "//javascript",
         "//python",
-        "//skylark",
         "//terminal",
     ],
     deps = [
@@ -87,6 +82,9 @@ intellij_plugin(
     plugin_xml = ":stamped_plugin_xml",
     deps = [
         ":clwb_lib",
+        "//base:plugin_library",
+        "//dart:plugin_library",
+        "//skylark:plugin_library",
     ],
 )
 

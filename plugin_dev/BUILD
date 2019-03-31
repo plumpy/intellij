@@ -3,7 +3,6 @@ licenses(["notice"])  # Apache 2.0
 load(
     "//build_defs:build_defs.bzl",
     "intellij_plugin",
-    "merged_plugin_xml",
     "optional_plugin_xml",
     "stamped_plugin_xml",
 )
@@ -32,42 +31,27 @@ optional_plugin_xml(
     visibility = ["//visibility:public"],
 )
 
-OPTIONAL_PLUGIN_XMLS = [
-    ":optional_xml",
-    "//java:optional_java",
-]
-
 filegroup(
     name = "plugin_xml",
     srcs = ["src/META-INF/blaze-plugin-dev.xml"],
-)
-
-merged_plugin_xml(
-    name = "merged_plugin_xml",
-    srcs = [
-        "//base:plugin_xml",
-        "//java:plugin_xml",
-    ] + [
-        ":plugin_xml",
-    ],
 )
 
 stamped_plugin_xml(
     name = "plugin_dev_plugin_xml",
     plugin_id = "com.google.idea.blaze.plugin_dev",
     plugin_name = "com.google.idea.blaze.plugin_dev",
-    plugin_xml = "merged_plugin_xml",
+    plugin_xml = ":plugin_xml",
 )
 
 intellij_plugin(
     name = "plugin_dev_integration_test_plugin",
     testonly = 1,
-    optional_plugin_xmls = OPTIONAL_PLUGIN_XMLS,
+    optional_plugin_xmls = [":optional_xml"],
     plugin_xml = ":plugin_dev_plugin_xml",
     deps = [
         ":plugin_dev",
-        "//base",
-        "//java",
+        "//base:plugin_library",
+        "//java:plugin_library",
     ],
 )
 

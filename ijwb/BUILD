@@ -28,15 +28,11 @@ merged_plugin_xml(
     name = "merged_plugin_xml_common",
     srcs = [
         "src/META-INF/ijwb.xml",
-        "//base:plugin_xml",
-        "//dart:plugin_xml",
         "//golang:plugin_xml",
-        "//java:plugin_xml",
         "//javascript:plugin_xml",
         "//kotlin:plugin_xml",
         "//python:plugin_xml",
         "//scala:plugin_xml",
-        "//skylark:plugin_xml",
     ],
 )
 
@@ -72,13 +68,11 @@ java_library(
         "//plugin_dev",
     ],
     runtime_deps = [
-        "//dart",
         "//golang",
         "//javascript",
         "//kotlin",
         "//python",
         "//scala",
-        "//skylark",
         "//terminal",
     ],
     deps = [
@@ -95,8 +89,6 @@ OPTIONAL_PLUGIN_XMLS = [
     ":optional_java",
     "//javascript:optional_xml",
     "//golang:optional_xml",
-    "//java:optional_java",
-    "//java:optional_coverage",
     "//kotlin:optional_xml",
     "//plugin_dev:optional_xml",
     "//python:optional_xml",
@@ -110,6 +102,10 @@ intellij_plugin(
     plugin_xml = ":stamped_plugin_xml",
     deps = [
         ":ijwb_lib",
+        "//base:plugin_library",
+        "//dart:plugin_library",
+        "//java:plugin_library",
+        "//skylark:plugin_library",
     ],
 )
 

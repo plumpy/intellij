@@ -46,20 +46,11 @@ merged_plugin_xml(
     srcs = ["src/META-INF/go-contents.xml"],
 )
 
-merged_plugin_xml(
-    name = "merged_plugin_xml",
-    srcs = [
-        "//base:plugin_xml",
-    ] + [
-        ":plugin_xml",
-    ],
-)
-
 stamped_plugin_xml(
     name = "golang_plugin_xml",
     plugin_id = "com.google.idea.blaze.golang",
     plugin_name = "com.google.idea.blaze.golang",
-    plugin_xml = "merged_plugin_xml",
+    plugin_xml = ":plugin_xml",
 )
 
 intellij_plugin(
@@ -69,6 +60,7 @@ intellij_plugin(
     plugin_xml = ":golang_plugin_xml",
     deps = [
         ":golang",
+        "//base:plugin_library",
     ],
 )
 

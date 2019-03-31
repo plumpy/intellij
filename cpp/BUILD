@@ -3,7 +3,6 @@ licenses(["notice"])  # Apache 2.0
 load(
     "//build_defs:build_defs.bzl",
     "intellij_plugin",
-    "merged_plugin_xml",
     "stamped_plugin_xml",
 )
 load(
@@ -99,20 +98,11 @@ intellij_unit_test_suite(
     ],
 )
 
-merged_plugin_xml(
-    name = "merged_plugin_xml",
-    srcs = [
-        "//base:plugin_xml",
-    ] + [
-        ":plugin_xml",
-    ],
-)
-
 stamped_plugin_xml(
     name = "cpp_plugin_xml",
     plugin_id = "com.google.idea.bazel.cpp",
     plugin_name = "com.google.idea.bazel.cpp",
-    plugin_xml = ":merged_plugin_xml",
+    plugin_xml = ":plugin_xml",
 )
 
 intellij_plugin(
@@ -121,6 +111,7 @@ intellij_plugin(
     plugin_xml = ":cpp_plugin_xml",
     deps = [
         ":cpp",
+        "//base:plugin_library",
     ],
 )
 
